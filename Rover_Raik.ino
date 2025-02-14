@@ -22,9 +22,9 @@ void setup() {
 }
 
 void loop() {
-  {
+    // Setting with button
     int ButtonCount = 0;
-     if (digitalRead(JoyStickButton) == LOW ){
+    if (digitalRead(JoyStickButton) == LOW ){
       ButtonCount++;
       delay(500);
     } 
@@ -35,63 +35,60 @@ void loop() {
       ButtonCount = 0;
       DebugMod = false;
     }
-  }
-do{
-int HorizontalJoyStick = analogRead(HorizontalPin); 
-int VerticalJoyStick = analogRead(VerticalPin);
-int HorizontalJoyStickPos = 0;
-int VerticalJoyStickPos = 0;
-if (HorizontalJoyStick > 450 and HorizontalJoyStick < 550){ // <- Код с хабра для вычисления позиции джойстика.
-  HorizontalJoyStickPos = 0;
-} 
-if (HorizontalJoyStick >= 550){
-  HorizontalJoyStickPos = map(HorizontalJoyStick, 550, 1023, 0, 5); // Последнее число 255?
-}
-if (HorizontalJoyStick <= 450){
-  HorizontalJoyStickPos = map(HorizontalJoyStick, 450, 0, 0, -5);
-}
-if (VerticalJoyStick > 450 and VerticalJoyStick < 550){ 
-  VerticalJoyStickPos = 0;
-}
-if (VerticalJoyStick >= 550){
-  VerticalJoyStickPos = map(VerticalJoyStick, 550, 1023, 0, 5);
-}
-if (VerticalJoyStick <= 450){
-  VerticalJoyStickPos = map(VerticalJoyStick, 450, 0, 0, -5);
-  
-}
-int A = ((HorizontalJoyStickPos - 512) / 2) - 1; //Используем костыль вместо велосипеда.
-int HorizontalPosToMotor = abs(A);
-int B = ((VerticalJoyStickPos - 512) / 2) - 1;
-int VerticalPosToMotor = abs(B);
-int Speed = (((HorizontalPosToMotor / 255) * Rotation) * Dwheel);
-  if (VerticalJoyStickPos > 512){
-analogWrite(ForwardPinLeft, VerticalPosToMotor);
-analogWrite(ForwardPinRight, VerticalPosToMotor);
-}
-  else{
-analogWrite(BackwardPinLeft, VerticalPosToMotor); 
-analogWrite(BackwardPinRight, VerticalPosToMotor);
-}
-  if (HorizontalJoyStickPos > 512){
-analogWrite(ForwardPinLeft,HorizontalPosToMotor);
-delay(Speed / (0.25 * Lwheel) * 1000); 
-analogWrite(ForwardPinLeft, HorizontalPosToMotor);
-analogWrite(ForwardPinRight, HorizontalPosToMotor);
-}
-  else{
-analogWrite(ForwardPinRight,HorizontalPosToMotor);
-delay(Speed / (0.25 * Lwheel) * 1000); 
-analogWrite(ForwardPinLeft, HorizontalPosToMotor);
-analogWrite(ForwardPinRight,HorizontalPosToMotor);
-}
-int * ForwardPinLeftArray;
-ForwardPinLeftArray = (VerticalPosToMotor);
-int * BackwardPinLeftArray;
-BackwardPinLeftArray = (VerticalPosToMotor);
-int * ForwardPinRightArray;
-ForwardPinRightArray = (VerticalPosToMotor);
-int * BackwardPinRightArray;
-BackwardPinLeftArray = (VerticalPosToMotor);
-  } while (DebugMod == true);
+    // Unreasonable infinite loop with
+    do{
+      int HorizontalJoyStick = analogRead(HorizontalPin); 
+      int VerticalJoyStick = analogRead(VerticalPin);
+      int HorizontalJoyStickPos = 0;
+      int VerticalJoyStickPos = 0;
+      if (HorizontalJoyStick > 450 and HorizontalJoyStick < 550){ // <- Код с хабра для вычисления позиции джойстика.
+        HorizontalJoyStickPos = 0;
+      } 
+      if (HorizontalJoyStick >= 550){
+        HorizontalJoyStickPos = map(HorizontalJoyStick, 550, 1023, 0, 5); // Последнее число 255?
+      }
+      if (HorizontalJoyStick <= 450){
+        HorizontalJoyStickPos = map(HorizontalJoyStick, 450, 0, 0, -5);
+      }
+      if (VerticalJoyStick > 450 and VerticalJoyStick < 550){ 
+        VerticalJoyStickPos = 0;
+      }
+      if (VerticalJoyStick >= 550){
+        VerticalJoyStickPos = map(VerticalJoyStick, 550, 1023, 0, 5);
+      }
+      if (VerticalJoyStick <= 450){
+        VerticalJoyStickPos = map(VerticalJoyStick, 450, 0, 0, -5);
+      }
+      int A = ((HorizontalJoyStickPos - 512) / 2) - 1; //Используем костыль вместо велосипеда.
+      int HorizontalPosToMotor = abs(A);
+      int B = ((VerticalJoyStickPos - 512) / 2) - 1;
+      int VerticalPosToMotor = abs(B);
+      int Speed = (((HorizontalPosToMotor / 255) * Rotation) * Dwheel);
+      if (VerticalJoyStickPos > 512){
+        analogWrite(ForwardPinLeft, VerticalPosToMotor);
+        analogWrite(ForwardPinRight, VerticalPosToMotor);
+      }
+      else{
+        analogWrite(BackwardPinLeft, VerticalPosToMotor); 
+        analogWrite(BackwardPinRight, VerticalPosToMotor);
+      }
+      if (HorizontalJoyStickPos > 512){
+        analogWrite(ForwardPinLeft,HorizontalPosToMotor);
+        delay(Speed / (0.25 * Lwheel) * 1000); 
+        analogWrite(ForwardPinRight, HorizontalPosToMotor);
+      }
+      else{
+        analogWrite(ForwardPinRight,HorizontalPosToMotor);
+        delay(Speed / (0.25 * Lwheel) * 1000); 
+        analogWrite(ForwardPinLeft, HorizontalPosToMotor);
+      }
+      int * ForwardPinLeftArray;
+      ForwardPinLeftArray = (VerticalPosToMotor);
+      int * BackwardPinLeftArray;
+      BackwardPinLeftArray = (VerticalPosToMotor);
+      int * ForwardPinRightArray;
+      ForwardPinRightArray = (VerticalPosToMotor);
+      int * BackwardPinRightArray;
+      BackwardPinLeftArray = (VerticalPosToMotor);
+    } while (DebugMod == true);
 }
